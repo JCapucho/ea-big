@@ -1,0 +1,10 @@
+[package]
+name = "ea-big"
+version = "0.1.0"
+authors = ["Capucho <jcapucho7@gmail.com>"]
+edition = "2018"
+description = """
+A library to open ea .big game files
+"""
+
+[dependencies]
