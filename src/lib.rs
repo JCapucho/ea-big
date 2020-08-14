@@ -131,7 +131,11 @@ impl<M: Read + Seek> Read for EmbeddedFile<M> {
 
         let len = buf.len().min((self.size - self.cursor) as usize);
 
-        self.reader.read(&mut buf[..len])
+        let read = self.reader.read(&mut buf[..len])?;
+
+        self.cursor += read as u64;
+
+        Ok(read)
     }
 }
 

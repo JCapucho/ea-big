@@ -1,6 +1,11 @@
-use std::{env, fs, io, process};
+use std::{
+    env, fs,
+    io::{Read, Result},
+    path::PathBuf,
+    process,
+};
 
-fn main() -> io::Result<()> {
+fn main() -> Result<()> {
     let path = if let Some(path) = env::args().skip(1).next() {
         path
     } else {
@@ -23,6 +28,17 @@ fn main() -> io::Result<()> {
             "name: {} | offset: {} | size: {}",
             entry.name, entry.pos, entry.size
         );
+
+        let mut embed = ea_big::open_file(&file, &entry);
+
+        let mut buf = Vec::with_capacity(entry.size as usize);
+
+        assert_eq!(embed.read_to_end(&mut buf)?, entry.size as usize);
+
+        let path = PathBuf::from(entry.name.replace("\\", "/"));
+
+        fs::create_dir_all(path.parent().unwrap())?;
+        fs::write(path, buf)?;
     }
 
     Ok(())
