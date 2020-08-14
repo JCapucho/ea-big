@@ -8,5 +8,6 @@ A library to open ea .big game files
 """
 readme = "README.md"
 repository = "https://github.com/JCapucho/ea-big"
+license = "MIT"
 
 [dependencies]
